@@ -6,7 +6,6 @@ pipeline {
     }
 
     environment {
-        // Configure the SonarQube environment variable
         SONARQUBE_URL = 'http://20.229.186.85:9000/'
         SONARQUBE_TOKEN = 'squ_4e0e54420d63ce90d18e854133c2aa7b88dbc120'
     }
@@ -19,13 +18,13 @@ pipeline {
         }
         stage('SonarQube Analysis') {
             steps {
-                withSonarQubeEnv('SonarQube') {
+                withSonarQubeEnv('SonarQube') { 
                     sh """
                         sonar-scanner \
-                        -Dsonar.projectKey=your-project-key \
-                        -Dsonar.sources=. \
-                        -Dsonar.host.url=${SONARQUBE_URL} \
-                        -Dsonar.login=${SONARQUBE_TOKEN}
+                        -Dsonar.projectKey=test-oran \    # ודא שמפתח הפרויקט נכון
+                        -Dsonar.sources=src/Sonascript-Amir \    # ודא שהנתיב למקורות נכון
+                        -Dsonar.host.url=${SONARQUBE_URL} \    # כתובת ה-URL של SonarQube
+                        -Dsonar.login=${SONARQUBE_TOKEN}    # ה-token של SonarQube
                     """
                 }
             }
