@@ -4,15 +4,8 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'master', url: 'https://github.com/YakirBar/Zomato-Clone.git'
+                echo test
             }
         }
-        stage('Build') {
-            steps {
-                // Placeholder build step
-                sh 'echo "Building application..."'
-            }
-        }
-        // Add more stages as needed
     }
 }
