@@ -17,7 +17,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 // Checkout code from version control
-                git url: 'https://github.com/YakirBar/Zomato-Clone.git', branch: 'main'
+                git url: 'https://github.com/YakirBar/Zomato-Clone.git', branch: 'master'
             }
         }
 
