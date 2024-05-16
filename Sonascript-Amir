@@ -10,10 +10,6 @@ pipeline {
         SONARQUBE_TOKEN = 'squ_4e0e54420d63ce90d18e854133c2aa7b88dbc120'
     }
 
-    tools {
-        sonarScanner 'SonarQubeScanner' 
-    }
-
     stages {
         stage('Git Checkout') {
             steps {
@@ -22,9 +18,9 @@ pipeline {
         }
         stage('SonarQube Analysis') {
             steps {
-                withSonarQubeEnv('SonarQube') {
+                withSonarQubeEnv('SonarQube') { 
                     sh """
-                        sonar-scanner \
+                        ${tool 'SonarQubeScanner'}/bin/sonar-scanner \
                         -Dsonar.projectKey=test-oran \
                         -Dsonar.sources=src \
                         -Dsonar.host.url=${SONARQUBE_URL} \
