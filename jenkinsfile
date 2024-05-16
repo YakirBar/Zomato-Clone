@@ -1,11 +1,16 @@
 pipeline {
     agent any
 
+    triggers {
+        githubPush()
+    }
+
     stages {
-        stage('Checkout') {
+        stage('Git Checkout') {
             steps {
-                echo test
+                checkout([$class: 'GitSCM', branches: [[name: '*/master']], userRemoteConfigs: [[url: 'https://github.com/YakirBar/Zomato-Clone.git']]])
             }
         }
+        // Add more stages as needed
     }
 }
