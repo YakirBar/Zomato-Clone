@@ -8,7 +8,7 @@ pipeline {
 
     environment {
         // Provide the URL to your SonarQube server
-        SONARQUBE_URL = 'http://http://20.229.186.85/:9000'
+        SONARQUBE_URL = 'http://20.229.186.85:9000'
         // Use a token generated from your SonarQube server for authentication
         SONARQUBE_TOKEN = credentials('squ_4e0e54420d63ce90d18e854133c2aa7b88dbc120')
     }
@@ -17,7 +17,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 // Checkout code from version control
-                git url: 'https://https://github.com/YakirBar/Zomato-Clone.git', branch: 'main'
+                git url: 'https://github.com/YakirBar/Zomato-Clone.git', branch: 'main'
             }
         }
 
