@@ -10,6 +10,10 @@ pipeline {
         SONARQUBE_TOKEN = 'squ_4e0e54420d63ce90d18e854133c2aa7b88dbc120'
     }
 
+    tools {
+        sonarScanner 'SonarQubeScanner' // Use the name you configured in Global Tool Configuration
+    }
+
     stages {
         stage('Git Checkout') {
             steps {
@@ -18,13 +22,13 @@ pipeline {
         }
         stage('SonarQube Analysis') {
             steps {
-                withSonarQubeEnv('SonarQube') { 
+                withSonarQubeEnv('SonarQube') {
                     sh """
                         sonar-scanner \
-                        -Dsonar.projectKey=test-oran \    # ודא שמפתח הפרויקט נכון
-                        -Dsonar.sources=src/Sonascript-Amir \    # ודא שהנתיב למקורות נכון
-                        -Dsonar.host.url=${SONARQUBE_URL} \    # כתובת ה-URL של SonarQube
-                        -Dsonar.login=${SONARQUBE_TOKEN}    # ה-token של SonarQube
+                        -Dsonar.projectKey=test-oran \
+                        -Dsonar.sources=src/Sonascript-Amir \
+                        -Dsonar.host.url=${SONARQUBE_URL} \
+                        -Dsonar.login=${SONARQUBE_TOKEN}
                     """
                 }
             }
@@ -33,7 +37,6 @@ pipeline {
 
     post {
         always {
-            // Optionally, wait for SonarQube analysis and quality gate status
             script {
                 def qg = waitForQualityGate()
                 if (qg.status != 'OK') {
