@@ -1,14 +1,11 @@
 pipeline {
-        agent none
-        stages {
-         
-          stage("build & SonarQube Scanner") {
-            agent any
+    agent any
+    stages {
+        stage('Scan') {
             steps {
-              withSonarQubeEnv('SonarQube Scanner') {
-                sh 'mvn clean package sonar:sonar'
-              }
+                checkout([$class: 'GitSCM', branches: [[name: '*/master']], 
+                          userRemoteConfigs: [[url: 'https://github.com/YakirBar/Zomato-Clone.git']]])
             }
-          }
         }
-      }
+    }
+}
