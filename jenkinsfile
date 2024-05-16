@@ -9,7 +9,8 @@ pipeline {
         }
         stage('Build') {
             steps {
-                // Add your build steps here
+                // Placeholder build step
+                sh 'echo "Building application..."'
             }
         }
         // Add more stages as needed
