@@ -7,7 +7,7 @@ pipeline {
 
     environment {
         // Configure the SonarQube environment variable
-        SONARQUBE_URL = 'http://your-sonarqube-url'
+        SONARQUBE_URL = 'http://20.229.186.85:9000/'
     }
 
     stages {
