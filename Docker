@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    environment {
+        DOCKER_HOME = '/usr/bin' // This is the default location for Docker executable in many systems
+    }
+
     stages {
         stage('Build Docker Image') {
             steps {
