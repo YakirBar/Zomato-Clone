@@ -1,7 +1,7 @@
 import groovy.json.JsonSlurper
 
 pipeline {
-    agent { label 'yakir' }
+    agent { label 'agent1' }
     
     stages {
         stage('Update Status') {
