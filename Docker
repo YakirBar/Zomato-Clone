@@ -10,12 +10,15 @@ pipeline {
                 }
             }
         }
-        stage('Push Docker Image') {
+        stage('Check Docker Image') {
             steps {
-                // Push the built Docker image to a Docker registry
+                // Check if the Docker image was created successfully
                 script {
-                    docker.withRegistry('https://your-docker-registry-url', 'your-docker-registry-credentials-id') {
-                        docker.image("yourimagename:latest").push('latest')
+                    def dockerImage = docker.image("yourimagename:latest")
+                    if (dockerImage.exists()) {
+                        echo "Docker image 'yourimagename:latest' was successfully created"
+                    } else {
+                        error "Failed to create Docker image 'yourimagename:latest'"
                     }
                 }
             }
