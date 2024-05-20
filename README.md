@@ -1,6 +1,3 @@
-fngnghDJdadasVDFVdzxvcxvddde
-r2ddasdak;llml'sss
-
 # Zomato Clone: Secure Deployment with DevSecOps CI/CD
 ![zomato-clone](https://miro.medium.com/v2/resize:fit:1400/format:webp/1*X_hm5iF0NRjbOZHB6RQIFA.jpeg)
 
@@ -82,5 +79,3 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
 # Zomato-Clone
-
-example push 5
