@@ -11,7 +11,8 @@ pipeline {
                     // Define the issueKey by Commit Message
                     def key = sh(script: "git log --format=%B -n 1 HEAD", returnStdout: true).trim()
                     
-                    def issueKey = key
+                    def index = key.indexOf(' ')
+                    def issueKey = key.substring(0, index)
 
                     if (issueKey) {
                         // Define the new status
@@ -22,7 +23,7 @@ pipeline {
                         println "Transition ID for ${newStatus}: ${transitionId}"
 
                         if (transitionId != null) {
-                            def response = sh(script: "curl -u admin:password -X POST -H 'Content-Type: application/json' -d '{\"transition\": {\"id\": \"${transitionId}\"}}' http://172.17.0.3:8080/rest/api/2/issue/${issueKey}/transitions", returnStdout: true)
+                            def response = sh(script: "curl -u <jira username:password> -X POST -H 'Content-Type: application/json' -d '{\"transition\": {\"id\": \"${transitionId}\"}}' http://<public_ip>:<jira_port>/rest/api/2/issue/${issueKey}/transitions", returnStdout: true)
                             println "Response: ${response}"
                         } else {
                             println "Transition ID not found for ${newStatus}."
@@ -37,7 +38,7 @@ pipeline {
 }
 
 def getTransitionId(issueKey, statusName) {
-    def response = sh(script: "curl -u admin:password -X GET -H 'Content-Type: application/json' http://172.17.0.3:8080/rest/api/2/issue/${issueKey}/transitions", returnStdout: true).trim()
+    def response = sh(script: "curl -u <jira username:password> -X GET -H 'Content-Type: application/json' http://<public_ip>:<jira_port>/rest/api/2/issue/${issueKey}/transitions", returnStdout: true).trim()
     def jsonSlurper = new JsonSlurper()
     def transitions = jsonSlurper.parseText(response)
 
@@ -50,6 +51,5 @@ def getTransitionId(issueKey, statusName) {
         }
     }
 
-    return null
-}
+    return null
 }
