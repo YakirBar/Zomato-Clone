@@ -7,7 +7,7 @@ pipeline {
                 script {
                     // Define Dockerfile location and image name
                     def dockerfile = 'Dockerfile'
-                    def imageName = 'yamir29797@gmail.com/project:latest'
+                    def imageName = 'amirparyenti/project:latest'
 
                     // Build Docker image
                     docker.build(imageName, "-f ${dockerfile} .")
