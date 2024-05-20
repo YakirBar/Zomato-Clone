@@ -1,0 +1,24 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Build Docker Image') {
+            steps {
+                // Build the Docker image using the Dockerfile in the repository
+                script {
+                    docker.build("yourimagename:latest")
+                }
+            }
+        }
+        stage('Push Docker Image') {
+            steps {
+                // Push the built Docker image to a Docker registry
+                script {
+                    docker.withRegistry('https://your-docker-registry-url', 'your-docker-registry-credentials-id') {
+                        docker.image("yourimagename:latest").push('latest')
+                    }
+                }
+            }
+        }
+    }
+}
