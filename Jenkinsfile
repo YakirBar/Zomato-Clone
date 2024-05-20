@@ -11,8 +11,7 @@ pipeline {
                     // Define the issueKey by Commit Message
                     def key = sh(script: "git log --format=%B -n 1 HEAD", returnStdout: true).trim()
                     
-                    def index = key.indexOf(' ')
-                    def issueKey = key.substring(0, index)
+                    def issueKey = key
 
                     if (issueKey) {
                         // Define the new status
