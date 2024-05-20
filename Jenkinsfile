@@ -9,8 +9,8 @@ pipeline {
                 script {
                     
                     // Define the issueKey by Commit Message
-                    def key = sh(script: "git log --format=%B -n 1 HEAD", returnStdout: true).trim()
-                    println key
+                    def key = sh(returnStdout: true, script: 'git log --format=%B -n 1 HEAD').trim()
+
                     def index = key.indexOf(' ')
                     def issueKey = key.substring(0, index)
 
