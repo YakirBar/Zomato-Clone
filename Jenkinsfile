@@ -1,55 +1,21 @@
-import groovy.json.JsonSlurper
-
 pipeline {
-    agent { label 'agent1' }
-    
+    agent {
+        label 'inbound-agent'
+    }
+
     stages {
-        stage('Update Status') {
+        stage('Check Docker Version') {
             steps {
                 script {
-                    
-                    // Define the issueKey by Commit Message
-                    def key = sh(returnStdout: true, script: 'git log --format=%B -n 1 HEAD').trim()
-
-                    def index = key.indexOf(' ')
-                    def issueKey = key.substring(0, index)
-
-                    if (issueKey) {
-                        // Define the new status
-                        def newStatus = "Done"
-                        
-                        // Update status using REST API
-                        def transitionId = getTransitionId(issueKey, newStatus)
-                        println "Transition ID for ${newStatus}: ${transitionId}"
-
-                        if (transitionId != null) {
-                            def response = sh(script: "curl -u admin:password -X POST -H 'Content-Type: application/json' -d '{\"transition\": {\"id\": \"${transitionId}\"}}' http://10.0.0.14:8090/rest/api/2/issue/${issueKey}/transitions", returnStdout: true)
-                            println "Response: ${response}"
-                        } else {
-                            println "Transition ID not found for ${newStatus}."
-                        }
-                    } else {
-                        println "Issue key not found in pull request title."
+                    // Check if Docker is installed and print the Docker version
+                    try {
+                        sh 'docker --version'
+                    } catch (Exception e) {
+                        // Handle the case where Docker is not installed
+                        echo 'Docker is not installed on this agent.'
                     }
                 }
             }
         }
     }
-}
-
-def getTransitionId(issueKey, statusName) {
-    def response = sh(script: "curl -u admin:password -X GET -H 'Content-Type: application/json' http://10.0.0.14:8090/rest/api/2/issue/${issueKey}/transitions", returnStdout: true).trim()
-    def jsonSlurper = new JsonSlurper()
-    def transitions = jsonSlurper.parseText(response)
-
-    println "All Transitions: ${transitions}"
-
-    for (transition in transitions.transitions) {
-        println "Transition: ${transition}"
-        if (transition.to.name == statusName) {
-            return transition.id
-        }
-    }
-
-    return null
 }
