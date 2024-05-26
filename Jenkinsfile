@@ -2,20 +2,29 @@ pipeline {
     agent {
         label 'inbound-agent'
     }
-
+    environment {
+        DOCKERHUB_CREDENTIALS = credentials('Docker Hub Access Token')
+    }
     stages {
-        stage('Check Docker Version') {
+        stage('Build') {
             steps {
-                script {
-                    // Check if Docker is installed and print the Docker version
-                    try {
-                        sh 'docker --version'
-                    } catch (Exception e) {
-                        // Handle the case where Docker is not installed
-                        echo 'Docker is not installed on this agent.'
-                    }
-                }
+                sh 'docker build -t yakirbartech/node-app:latest .'
             }
+        }
+        stage('Login') {
+            steps {
+                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+            }
+        }
+        stage('Push') {
+            steps {
+                sh 'docker push yakirbartech/node-app:latest'
+            }
+        }
+    }
+    post {
+        always {
+            sh 'docker logout'
         }
     }
 }
